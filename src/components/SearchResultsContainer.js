@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Table from '../components/Table';
+import Table from './EmployeeTable';
 import API from '../utils/API';
-
+import '../index.css';
 
 class SearchResultsContainer extends Component {
   // create a state that will hold the response data from axios call
@@ -23,58 +23,28 @@ class SearchResultsContainer extends Component {
         this.setState({filterResultMale: res.data.results});
         this.setState({filterResultFemale: res.data.results});
         this.setState({showAgeResult: res.data.results});
+        this.setState({showResult: res.data.results});
       })
       .catch(err => console.log(err));
   }
 
-  compareEmployeeAge = (a, b) => {
-    const userA = a.age.toInterger();
-    const userB = b.age.toInterger();
-    let compareAge = 0;
-
-    if(userA > userB) {
-      compareAge = 1;
-    } else if (userA < userB) {
-      compareAge = -1;
+  sortEmployeeAge = () => { // Sorts by age
+      let age = [];
+      age[0] = this.state.showAgeResult[0];
+      for(let i = 1; i < 20; i++){
+        for(let j = 0; j < age.length; j++){
+          if(this.state.showAgeResult[i].dob.age < age[j].dob.age){
+            age.splice(j,0,this.state.showAgeResult[i]);
+            break;
+          }
+          if(j === age.length - 1){
+            age.push(this.state.showAgeResult[[i]]);
+            break;
+          }
+      }
+      this.setState({showResult: age});
     }
-    return compareAge;
-  }
-
-  // function to sort the array (which is currently this.state.showResult)
-  // sortUsers will take the showResult array, and sort alphabetically
-  // then set the state to be the sorted array
-  sortEmployeesAge = () => {
-    this.setState({showResult: this.state.showAgeResult.sort(this.compareEmployeeAge)});
-    this.setState({age: true})
-  }
-
-  // ========== Functions to sort users in revese alphabetical order ==========
-  compareEmployeeAgeRev = (a, b) => {
-    const userA = a.age.toInterger();
-    const userB = b.age.toInterger();
-    let compareEmployeeAge = 0;
-
-    if(userA > userB) {
-      compareEmployeeAge = 1;
-    } else if (userA < userB) {
-      compareEmployeeAge = -1;
-    }
-    return compareEmployeeAge * -1;
-  }
-
-  sortEmployeeAgeRev = () => {
-    this.setState({showResult: this.state.showLastResult.sort(this.compareEmployeeAgeRev)});
-    this.setState({age: false})
-  }
-
-  // if this.state.alpha is true, run sortUsers function; else run sortUsersRev function
-  sortEmployeeAge = () => {
-    if(this.state.age === false) {
-      this.sortEmployeeAge();
-    } else {
-      this.sortEmployeeAgeRev();
-    }
-  }
+  };
 
   // filter array for male employees
   filterMale = () => {
@@ -130,8 +100,8 @@ class SearchResultsContainer extends Component {
       <div className="header">
         {/* User data will go in the component as props */}
         <Table 
-          employees={this.state.result}
-          sortEmployees={this.sortEmployeesAge}
+          employees={this.state.showResult}
+          sortEmployeeAge={this.sortEmployeeAge}
           filterMale={this.filterMale}
           filter={this.filter}
         />

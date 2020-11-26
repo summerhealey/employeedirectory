@@ -1,8 +1,9 @@
 import React from "react";
 
+
 function Header(props) {
     return (
-        <h1 class='text-center'> Employee Directory </h1>
+        <div className='center-align heading'> <h1> Employee Directory </h1></div>
     );
 }
 

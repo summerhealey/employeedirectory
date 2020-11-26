@@ -1,0 +1,51 @@
+.center-align {
+  text-align: center;
+}
+
+.heading {
+  background-color: white;
+  color: black;
+  padding: 50px;
+}
+
+.header {
+    margin-top: 72px;
+  }
+  
+  .table-fixed tbody {
+    height: 840px;
+    overflow-y: auto;
+    width: 100%;
+  }
+  
+  .table-fixed thead,
+  .table-fixed tbody,
+  .table-fixed tr,
+  .table-fixed td,
+  .table-fixed th {
+    display: block;
+  }
+  
+  .table-fixed:after {
+    content: '';
+    clear: both;
+    display: block;
+    visibility: hidden;
+  }
+  
+  .table-fixed tbody td,
+  .table-fixed thead > tr > th {
+    float: left;
+  }
+  
+  th {
+    height: 50px;
+  }
+  
+  td {
+    height: 100px;
+  }
+  
+  td img {
+    height: 100%;
+  }
